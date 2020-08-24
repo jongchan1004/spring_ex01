@@ -6,8 +6,16 @@
 </head>
 <body>
 <h1>
-	Hello world!  
+	Hello world! EX01
 </h1>
+
+<h1>
+	post request
+</h1>
+<form action="/sample/basic" method="post">
+	<input type="text" name="name"> <br>
+	<input type="submit" />
+</form>
 
 <P>  The time on the server is ${serverTime}. </P>
 </body>
