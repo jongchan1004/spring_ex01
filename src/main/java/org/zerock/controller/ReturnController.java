@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.Member;
 
 import lombok.extern.log4j.Log4j;
@@ -134,5 +135,47 @@ public class ReturnController {
 		log.info("k method");
 
 		return "/ret/c";
+	}
+	
+	//08월26일
+	// /l
+	@RequestMapping("/l")
+	public String methodl(Model model) { //rttr을 활용해 redirect당하는 url에 데이터를 전달
+		log.info("l method");
+		
+		/*옛날 것
+		String contextPath = request().getContextPath();
+		response.sendRedirect(contextPath + "/ret/m"); forward는 contextPath 안 붙임 */
+		
+		model.addAttribute("myAttr1", "myValue1"); //RedirectAttributes사용안하면 request param에 붙어 있음
+		
+		//return "redirect:/ret/m";
+		return "redirect:m"; // myAttr1: myValue1
+	}
+	
+	// /ll
+	@RequestMapping("/ll")
+	public String methodll(Model model, RedirectAttributes rttr) { //rttr을 활용해 redirect당하는 url에 데이터를 전달
+		log.info("l method");
+		
+		/*옛날 것
+		String contextPath = request().getContextPath();
+		response.sendRedirect(contextPath + "/ret/m"); forward는 contextPath 안 붙임 */
+		
+		model.addAttribute("myAttr1", "myValue1"); //RedirectAttributes사용안하면 request param에 붙어 있음
+		rttr.addFlashAttribute("myRedirectAttr1", "myRedirectValue1"); //휘발성-session에 잠깐 붙었다가 떨어짐
+		rttr.addAttribute("myRedirectAttr2", "myRedirectValue2"); //request param에 붙어 있음
+		
+		//return "redirect:/ret/m";
+		return "redirect:m";
+	}
+	
+	@RequestMapping("/m")
+	public String methodm(Model model) {
+		log.info("m method");
+		
+		//model.addAttribute("myAttr1", "myValue1"); //됨
+		
+		return "/ret/m";
 	}
 }

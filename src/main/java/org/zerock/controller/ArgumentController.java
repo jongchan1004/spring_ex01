@@ -226,6 +226,13 @@ public class ArgumentController {
 		log.info(model); // {str=str-value, string=str-value2, member=Member(name=null, age=0), stringList=[Ljava.lang.String;@55ed679f, memberList=[Member(name=null, age=0)]}
 	}
 	
+	@RequestMapping("/qq")
+	public void method177(Model model) {
+		log.info("qq method");
+		model.addAttribute(new String[] {"a", "b"});
+		log.info(model); // {stringList=[Ljava.lang.String;@1734e894}
+	}
+	
 	// /r?name=donald&age=22
 	@RequestMapping("/r")
 	public void method18(@ModelAttribute Member member, Model model) { //기본타입이 아닌 경우는 @ModelAttribute가 생략되어도 model에 등록됨
