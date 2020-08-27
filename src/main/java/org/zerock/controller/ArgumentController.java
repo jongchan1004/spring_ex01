@@ -220,7 +220,8 @@ public class ArgumentController {
 		//model.addAttribute(new ArrayList<Member>()); //Attribute 이름은 원소타입에 List가 붙음. 비어 있는 collection은 등록 안됨
 		
 		List<Member> mlist = new ArrayList<Member>();
-		mlist.add(new Member());
+		//mlist.add(new Member());
+		mlist.add(new Member("홍길동", 22));
 		model.addAttribute(mlist); //Attribute 이름은 원소타입에 List가 붙음. 비어 있는 collection은 등록 안됨
 		
 		log.info(model); // {str=str-value, string=str-value2, member=Member(name=null, age=0), stringList=[Ljava.lang.String;@55ed679f, memberList=[Member(name=null, age=0)]}

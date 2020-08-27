@@ -156,14 +156,14 @@ public class ReturnController {
 	// /ll
 	@RequestMapping("/ll")
 	public String methodll(Model model, RedirectAttributes rttr) { //rttr을 활용해 redirect당하는 url에 데이터를 전달
-		log.info("l method");
+		log.info("ll method");
 		
 		/*옛날 것
 		String contextPath = request().getContextPath();
 		response.sendRedirect(contextPath + "/ret/m"); forward는 contextPath 안 붙임 */
 		
 		model.addAttribute("myAttr1", "myValue1"); //RedirectAttributes사용안하면 request param에 붙어 있음
-		rttr.addFlashAttribute("myRedirectAttr1", "myRedirectValue1"); //휘발성-session에 잠깐 붙었다가 떨어짐
+		rttr.addFlashAttribute("myRedirectAttr1", "myRedirectValue1"); //휘발성-session에 잠깐 붙었다가 떨어짐. 새로고침하면 날아감
 		rttr.addAttribute("myRedirectAttr2", "myRedirectValue2"); //request param에 붙어 있음
 		
 		//return "redirect:/ret/m";

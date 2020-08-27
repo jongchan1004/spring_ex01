@@ -2,14 +2,20 @@ package org.zerock.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.function.Consumer;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.zerock.domain.SampleDTO;
 import org.zerock.domain.SampleDTOList;
 import org.zerock.domain.TodoDTO;
@@ -122,7 +128,7 @@ public class SampleController {
 		return dto; //jackson-databind 라이브러리를 pom.xml에 추가하면 JSON으로 처리되어 body에 추가됨. 
 		// JSON은 스프링이 별도 설정없이 변환하여 보여 줌
 	}
-	/*
+	
 	@GetMapping("/ex07")
 	public ResponseEntity<String> ex07() {
 		log.info("/ex07........................");
@@ -135,5 +141,78 @@ public class SampleController {
 		
 		return new ResponseEntity<>(msg, header, HttpStatus.OK);
 	}
-*/
+	
+	@GetMapping("/exUpload")
+	public void exUpload() {
+		log.info("/exUpload...............");
+	}
+	
+//	@PostMapping("/exUploadPost")
+//	public void exUploadPost(ArrayList<MultipartFile> files) { //spring이 제공해 주는 file
+//		log.info("/exuploadpost...............");
+//		
+//		for(MultipartFile file : files) {
+//			log.info("----------------------");
+//			log.info("name:" + file.getOriginalFilename());
+//			log.info("size:" + file.getSize());
+//		}
+//	}
+	
+	//책 p.152 I/F중 추상메소드가 1개인 I/F
+	@PostMapping("/exUploadPost")
+	public void exUploadPost(ArrayList<MultipartFile> files) {
+		//[1]I/F구현
+		//1.class작성
+		//2.instance 생성
+		//3.argument 전달
+		MyConsumer consumer = new MyConsumer();
+		files.forEach(consumer);
+		
+		//[2]무명클래스
+		//1.무명클래스(annoymous class)의 인스턴스생성 및 전달
+		files.forEach(new Consumer<MultipartFile>() {
+
+			@Override
+			public void accept(MultipartFile file) {
+				log.info("-------------------------------");
+				log.info("name: " + file.getOriginalFilename());
+				log.info("size: " + file.getSize());
+				
+			}
+		});
+		
+		//[3]lambda
+		//functional i/f-i/f중 구현해야할 추상메소드가 하나인 경우
+		//메소드파라미터와 메소드몸통만 작성-->람다식
+		//파라미터 타입도 생략이 가능, 파라미터가 1개면 괄호도 생략 가능
+		//몸통의 statement가 1개면 중괄호도 생략 가능
+		//1.lambda로 작성
+		files.forEach((MultipartFile file) -> {
+			log.info("-------------------------------");
+			log.info("name: " + file.getOriginalFilename());
+			log.info("size: " + file.getSize());
+		});
+		
+		//
+		files.forEach(file -> {
+			log.info("-------------------------------");
+			log.info("name: " + file.getOriginalFilename());
+			log.info("size: " + file.getSize());
+		});
+		
+	}
+
+}
+
+@Log4j
+class MyConsumer implements Consumer<MultipartFile> {
+
+	@Override
+	public void accept(MultipartFile file) {
+		log.info("-------------------------------");
+		log.info("name: " + file.getOriginalFilename());
+		log.info("size: " + file.getSize());
+		
+	}
+	
 }
